@@ -1,27 +1,31 @@
-var express = require('express');
+/*var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var app = express();
 var methodOverride = require('method-override');
-var burger = require('../models/burger.js');
+var burgers = require('../models');
 
 router.get('/', function(req,res) {
      res.redirect('/burgers');
 });
 
 router.get('/burgers', function(req,res) {
-	burger.selectAll(function(data){
-          console.log();
-		res.render('index', {burgers : data});
-	});
+     models.burgers.findAll({
+          where: {
+          devoured: false
+          }
+     }).then(function (data) {
+     res.render('index', {burgers : data});
+     });
 });
 
 router.post('/burgers/create', function(req,res) {
-	burger.insertOne(['burger_name', 'devoured'], [req.body.name, 0], function(data){
-		res.redirect('/burgers');
-	});
-});
-
+     models.burgers.create({
+        burger_name: req.body.name,
+        devoured: false,
+    });
+});*/
+/*
 router.put('/burgers/update/:id', function(req,res) {
 	var condition = 'id = ' + req.params.id;
 
@@ -36,6 +40,6 @@ router.delete('/burgers/delete/:id', function(req, res) {
     burger.deleteOne('burgers', req.params.id, function() {
         res.redirect('/burgers');
    });
-});
+});*/
 
 module.exports = router;
