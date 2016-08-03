@@ -1,45 +1,46 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var app = express();
+//var app = express();
+var models = require('../models');
 var methodOverride = require('method-override');
-var burgers = require('../models');
 
 router.get('/', function(req,res) {
      res.redirect('/burgers');
 });
 
 router.get('/burgers', function(req,res) {
-     models.burgers.findAll({
-          where: {
-          devoured: false
-          }
-     }).then(function (data) {
-     res.render('index', {burgers : data});
+     models.burgers.findAll()
+     .then(function(data){
+          res.render('index', {burgers : data});
      });
 });
 
-router.post('/burgers/create', function(req,res) {
-     models.burgers.create({
+router.post('/burgers/create', function(req, res) {
+    models.burgers.create({
         burger_name: req.body.name,
-        devoured: false,
-    });
+        devoured: 0})
+        .then(function() {
+	   res.redirect('/burgers');
+			});
 });
 
 router.put('/burgers/update/:id', function(req,res) {
-	var condition = 'id = ' + req.params.id;
-
-	console.log('condition', condition);
-
-	burger.updateOne({'devoured' : 1}, condition, function(data){
-		res.redirect('/burgers');
-	});
+     var theId = req.params.id;
+	models.burgers.update(
+          {devoured : true}, {where: { id: theId}}
+     ).then(function() {
+          res.redirect('/burgers');
+     });
 });
 
-router.delete('/burgers/delete/:id', function(req, res) {
-    burger.deleteOne('burgers', req.params.id, function() {
-        res.redirect('/burgers');
-   });
+router.delete('/burgers/delete/:id', function(req,res) {
+     var theId = req.params.id;
+	models.burgers.destroy(
+          {where: { id: theId}}
+     ).then(function() {
+          res.redirect('/burgers');
+     });
 });
 
 module.exports = router;
