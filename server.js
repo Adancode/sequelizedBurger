@@ -5,7 +5,6 @@ var PORT = process.env.PORT || 3000;
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var models = require('./models');
-console.log(models);
 var exphbs = require('express-handlebars');
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -25,14 +24,41 @@ app.get('/', function(req,res) {
 });
 
 app.get('/burgers', function(req,res) {
-		res.render('index');
+          models.burgers.findAll()
+          .then(function(data){
+               //console.log(data);
+               res.render('index', {burgers : data});
+         });
 });
 
 app.post('/burgers/create', function(req, res) {
-    models.burgers.findAll()
-    .then(function(users){
-        console.log(users);
-    });
+    //models.Users.findAll({where: {email: req.body.newname}}) this line may not work
+    //models.Users.findOne({where: {email: req.body.newname}})
+    //console.log(req.body.name);
+    models.burgers.create({
+        burger_name: req.body.name,
+        devoured: 0})
+        .then(function() {
+	   res.redirect('/burgers');
+			});
+});
+
+app.put('/burgers/update/:id', function(req,res) {
+     var theId = req.params.id;
+	models.burgers.update(
+          {devoured : true}, {where: { id: theId}}
+     ).then(function() {
+          res.redirect('/burgers');
+     });
+});
+
+app.delete('/burgers/delete/:id', function(req,res) {
+     var theId = req.params.id;
+	models.burgers.destroy(
+          {where: { id: theId}}
+     ).then(function() {
+          res.redirect('/burgers');
+     });
 });
 
 //var routes = require('./controllers/burgers_controller.js');

@@ -1,4 +1,4 @@
-/*var express = require('express');
+var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var app = express();
@@ -24,8 +24,8 @@ router.post('/burgers/create', function(req,res) {
         burger_name: req.body.name,
         devoured: false,
     });
-});*/
-/*
+});
+
 router.put('/burgers/update/:id', function(req,res) {
 	var condition = 'id = ' + req.params.id;
 
@@ -40,6 +40,6 @@ router.delete('/burgers/delete/:id', function(req, res) {
     burger.deleteOne('burgers', req.params.id, function() {
         res.redirect('/burgers');
    });
-});*/
+});
 
 module.exports = router;
