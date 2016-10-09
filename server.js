@@ -19,6 +19,11 @@ app.use(bodyParser.urlencoded({
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
 
+var routes = require('./controllers/burgers_controller.js');
+app.use('/', routes);
+
+app.listen(PORT);
+
 // The code commented out below is this app without modularization.  I am leaving this here for my notes.  I moved the app.get, post, put, and delete requests to burgers_controller, then required var router = express.Router(), then called router.get, post, put, and delete in that file.  At the end of that file, I exported the routes via module.exports = router, and imported them here with var routes = require('./controllers/burgers_controller.js'); and app.use('/', routes);
 
 // See the note above to review the code below.
@@ -64,9 +69,3 @@ app.delete('/burgers/delete/:id', function(req,res) {
           res.redirect('/burgers');
      });
 });*/
-
-
-var routes = require('./controllers/burgers_controller.js');
-app.use('/', routes);
-
-app.listen(PORT);

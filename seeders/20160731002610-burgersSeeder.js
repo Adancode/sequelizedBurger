@@ -9,13 +9,13 @@ module.exports = {
       Example:*/
       return queryInterface.bulkInsert('burgers', [{
         burger_name: 'Fattie Burger',
-        devoured: false,
+        devoured: false
       },
       {  burger_name: 'Veggie Burger',
-      devoured: false,
+      devoured: false
       },
       {  burger_name: 'Mushroom Burger',
-      devoured: false,
+      devoured: false
       }], {});
 
   },
